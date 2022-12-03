@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative '../config/environment'
+
+puts "Loading `#{ENV.fetch('APP_ENV', nil)}` environment (Ruby #{RUBY_VERSION})"
+TOKEN = '5679986265:AAEs1cUuPkcxZTHQdGhCRYh890wt8X6iK5A'
+require 'telegram/bot'
+Telegram::Bot::Client.run(TOKEN) do |bot|
+  bot.listen do |message|
+    puts "#{message.chat.title}: #{message.from.username}"
+    # bot.api.send_message(chat_id: message.chat.id, text: "Started by #{message.from.first_name} #{message.from.last_name}") if message.text == '/start'
+  end
+end
+require 'irb'
+
+IRB.start(__FILE__)

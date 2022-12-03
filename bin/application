@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+puts 'Application starting...'
+require_relative '../config/environment'
+
+puts "* Environment: #{ENV.fetch('APP_ENV', nil)}"
+puts "* Ruby version: #{RUBY_VERSION}"
+puts '* Bot started'
+puts 'Use Ctrl-C to stop'
+
+TOKEN = '5679986265:AAEs1cUuPkcxZTHQdGhCRYh890wt8X6iK5A'
+OBSERVER_IDS = [203_919_563, -1_001_302_618_953].freeze
+require 'telegram/bot'
+Telegram::Bot::Client.run(TOKEN) do |bot|
+  # OBSERVER_IDS.each do |chat_id|
+  #   bot.api.send_message(
+  #     chat_id: chat_id,
+  #     text: 'Бот запущен...'
+  #   )
+  # end
+  byebug
+  bot.listen do |message|
+    case message
+    when Telegram::Bot::Types::ChatMemberUpdated
+      # binding.pry
+      # administrator - добавить как админа группы
+      # left - удалить из группы
+      # member - добавить как члена группы
+      # kicked - остановить работу в группе
+      puts 'is Telegram::Bot::Types::ChatMemberUpdated'
+      puts message.new_chat_member.status
+      puts message.old_chat_member.status
+    when Telegram::Bot::Types::Message
+      duck = '🦆'
+      if message.text&.downcase == 'кря' || message.text == '🦆'
+        bot.api.send_message(chat_id: message.chat.id,
+                             text: duck)
+      end
+      puts [message.chat.title, message.from.username, message.text].join(' | ')
+      byebug
+    else
+      puts message.class
+    end
+    # bot.api.send_message(chat_id: message.chat.id, text: "Started by #{message.from.first_name} #{message.from.last_name}") if message.text == '/start'
+  end
+rescue SystemExit, Interrupt
+  puts '- Stopped successfully'
+  # OBSERVER_IDS.each do |chat_id|
+  #   bot.api.send_message(
+  #     chat_id: chat_id,
+  #     text: 'Бот опущен...'
+  #   )
+  # end
+end
