@@ -6,7 +6,7 @@ require 'zeitwerk'
 
 class Container < Dry::System::Container
   use :env, inferrer: -> { ENV.fetch('RACK_ENV', :development).to_sym }
-  # use :zeitwerk
+  use :zeitwerk
 
   configure do |config|
     config.component_dirs.add('lib') { |dir| dir.memoize = true }

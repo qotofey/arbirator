@@ -9,9 +9,8 @@ group :development, :test do
   gem 'rubocop', '~> 1.28'
 end
 
-gem 'telegram-bot-ruby', '~> 0.19.2'
 
-gem 'dry-system', '~> 0.19.2'
-gem 'zeitwerk', '~> 2.6'
 
-gem 'pry', '~> 0.14.1'
+gem "dry-system", "~> 1.0"
+gem "zeitwerk", "~> 2.6"
+gem "telegram-bot-ruby", "~> 0.23.0"
